@@ -51,7 +51,7 @@ export async function githubPush(webhook: WebhookRequestData, project: Project) 
 
     if (skip_deploy) {
       sendToLagoonLogs('info', project.name, uuid, `${webhooktype}:${event}:skipped`, meta,
-        `*[${project.name}]* ${logMessage} pushed in <${body.repository.html_url}|${body.repository.full_name}> *deployment skipped*`
+        `*[${project.name}]* ${logMessage} pushed in <${body.repository.html_url}|${body.repository.full_name}> by ${body.head_commit.author.name} *deployment skipped*`
       )
       return;
     }
@@ -59,7 +59,7 @@ export async function githubPush(webhook: WebhookRequestData, project: Project) 
     try {
       await createDeployTask(data);
       sendToLagoonLogs('info', project.name, uuid, `${webhooktype}:${event}:handled`, meta,
-        `*[${project.name}]* ${logMessage} pushed in <${body.repository.html_url}|${body.repository.full_name}>`
+        `*[${project.name}]* ${logMessage} pushed in <${body.repository.html_url}|${body.repository.full_name}> by ${body.head_commit.author.name}`
       )
       return;
     } catch (error) {
